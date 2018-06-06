@@ -9,3 +9,20 @@ This is our implementation of NetAdapt.
 - python netadapt.py search ... The main pruning procedure will start.
 
 The adapted model will be outputted to "./adapted_model.pickle".
+
+# experimental result
+- GTX1080Ti MobileNet CIFAR-10 compression-rate=0.9
+layer2, numfilter=34
+layer3, numfilter=49
+layer4, numfilter=91
+layer5, numfilter=144
+layer6, numfilter=256
+layer7, numfilter=447
+layer8, numfilter=482
+layer9, numfilter=468
+layer10, numfilter=436
+layer11, numfilter=471
+layer12, numfilter=512
+layer13, numfilter=1024
+reduction = 0.105497025671
+test accuracy = 0.811116
