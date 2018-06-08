@@ -275,14 +275,24 @@ def save_model(model):
     f.close()
 
 
-def measure_time(conv_pw1, bn_pw, conv_dw, bn_dw, conv_pw2, rep_size):
+def measure_time(conv_pw1, bn_pw, conv_dw, bn_dw, conv_pw2, rep_size, on_cpu=True):
 
-    x = cp.zeros((batch_size,conv_pw1.W.data.shape[1],rep_size,rep_size)).astype(cp.float32)
+    if on_cpu:
+        x = np.zeros((8,conv_pw1.W.data.shape[1],rep_size,rep_size)).astype(np.float32)
+        conv_pw1.to_cpu()
+        bn_pw.to_cpu()
+        conv_dw.to_cpu()
+        bn_dw.to_cpu()
+        conv_pw2.to_cpu()
+
+    else:
+        x = cp.zeros((batch_size,conv_pw1.W.data.shape[1],rep_size,rep_size)).astype(cp.float32)
+    
     x = chainer.Variable(x)
 
     start = time.perf_counter()
     
-    for i in range(100):
+    for i in range(10):
         h = conv_pw1(x)
         h = F.relu(bn_pw(h))
         h = conv_dw(h)
@@ -290,12 +300,12 @@ def measure_time(conv_pw1, bn_pw, conv_dw, bn_dw, conv_pw2, rep_size):
         h = conv_pw2(h)
 
     elapsed_time = time.perf_counter()-start
-    elapsed_time /= 100.0
+    elapsed_time /= 10.0
     return elapsed_time
 
 
 
-def make_table(model):
+def make_table(model, on_cpu=True):
 
     numlayer = 12
     lookup_table = []
@@ -303,10 +313,15 @@ def make_table(model):
 
 
     # gpu warmup run
+    if on_cpu:
+        x = np.zeros((8,3,32,32)).astype(np.float32)
+        model.to_cpu()
+    else:
+        x = cp.zeros((batch_size,3,32,32)).astype(cp.float32)
+    x = chainer.Variable(x)
+
     for i in range(20):
         start = time.perf_counter()
-        x = cp.zeros((128,3,32,32)).astype(cp.float32)
-        x = chainer.Variable(x)
         y = model.predictor(x)
         elapsed_time = time.perf_counter()-start
         print(elapsed_time)
@@ -329,7 +344,7 @@ def make_table(model):
             table_row[maxfilter-n-1] = measure_time(conv_pw1, bn_pw, conv_dw, bn_dw, conv_pw2, rep_size=rep_sizes[k-1])
 
         lookup_table.append(table_row)
-
+        print(table_row)
 
     f = open('./lookup_table.pickle', 'wb')
     pickle.dump(lookup_table, f)
