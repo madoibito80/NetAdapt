@@ -26,6 +26,9 @@ layer12, numfilter=512
 layer13, numfilter=1024
 reduction = 0.105497025671
 test accuracy = 0.811116  
+base_time = 0.13710842136667933  
+adapted_time = 0.0943378491526019  
+(both batchsize = 128)  
 exact-latency = 0.6880529161684906%  
 lookup-table is so poor approximation
 
