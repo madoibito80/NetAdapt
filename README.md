@@ -46,6 +46,9 @@ layer11, numfilter=280
 layer12, numfilter=1
 layer13, numfilter=1024
 reduction = 0.781648723048
-test accuracy = 0.698279
+test accuracy = 0.698279  
+base_time=9.089213041232654  
+exact time=2.1972459169957546  
+exact reduction percentage=0.24174215160631443
 
 
