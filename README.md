@@ -25,7 +25,9 @@ layer11, numfilter=471
 layer12, numfilter=512
 layer13, numfilter=1024
 reduction = 0.105497025671
-test accuracy = 0.811116
+test accuracy = 0.811116  
+exact-latency = 0.6880529161684906%  
+lookup-table is so poor approximation
 
 - Core i5 MobileNet CIFAR-10 compression-rate=0.2
 layer2, numfilter=1
@@ -42,3 +44,5 @@ layer12, numfilter=1
 layer13, numfilter=1024
 reduction = 0.781648723048
 test accuracy = 0.698279
+
+
