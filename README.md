@@ -1,7 +1,6 @@
 # NetAdapt: Platform-Aware Neural Network Adaptation for Mobile Applications
-https://arxiv.org/abs/1804.03230
 
-This is our implementation of NetAdapt.
+This is **unofficial** implementation of NetAdapt(https://arxiv.org/abs/1804.03230).
 
 ## useage
 - python netadapt.py pretrain ... Training and saving the MobileNet will start.
